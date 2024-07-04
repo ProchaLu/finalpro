@@ -1,5 +1,12 @@
 import { Sql } from 'postgres';
 
+export type Response = {
+  id: number;
+  pollId: number;
+  userId: number;
+  optionId: number;
+};
+
 export async function up(sql: Sql) {
   await sql`
   CREATE TABLE responses (

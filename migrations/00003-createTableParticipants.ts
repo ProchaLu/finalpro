@@ -1,5 +1,12 @@
 import { Sql } from 'postgres';
 
+export type Participant = {
+  id: number;
+  userId: number;
+  pollId: number;
+  status: boolean;
+};
+
 export async function up(sql: Sql) {
   await sql`
   CREATE TABLE participants (
