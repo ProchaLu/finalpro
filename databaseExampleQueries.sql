@@ -1,5 +1,5 @@
 CREATE TABLE "polls"(
-    id INTEGER NOT NULL,
+    id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     title VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     is_private BOOLEAN NOT NULL,
