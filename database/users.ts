@@ -21,8 +21,8 @@ export const getUserInsecure = cache(
   FROM
     users
   WHERE
-    user_name = ${userName},
-    email = ${email}
+    user_name = ${userName}       --no comma but an AND!!!!!!!!!!
+    AND email = ${email}
   `;
     return user;
   },
