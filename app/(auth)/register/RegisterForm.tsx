@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -14,6 +15,7 @@ export default function RegisterForm() {
       body: JSON.stringify({
         username,
         password,
+        email,
       }),
 
       headers: {
@@ -40,6 +42,14 @@ export default function RegisterForm() {
           type="password"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
+        />
+      </label>
+      <label>
+        Email
+        <input
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
         />
       </label>
       <button>Register</button>

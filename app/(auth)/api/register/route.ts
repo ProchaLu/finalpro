@@ -16,19 +16,15 @@ type RegisterResponseBodyPost =
     };
 
 const userSchema = z.object({
-  userName: z.string().min(3),
+  username: z.string().min(3),
   password: z.string().min(3),
+  email: z.string().min(3),
 });
 
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RegisterResponseBodyPost>> {
-  // Task: Implement the user registration workflow
-  // 1. Get the user data from the request
-  // 2. Validate the user data with zod
-  // 3. Check if user already exist in the database
-  // 4. Hash the plain password from the user
-  // 5. Save the user information with the hashed password in the database
+  // Implement the user registration workflow
 
   // console.log(await request.json());
 
@@ -49,7 +45,7 @@ export async function POST(
 
   // 3. Check if user already exist in the database
 
-  const user = await getUserInsecure(result.data.userName);
+  const user = await getUserInsecure(result.data.username, result.data.email);
 
   if (user) {
     return NextResponse.json(
@@ -77,7 +73,11 @@ export async function POST(
 
   // 5. Save the user information with the hashed password in the database
 
-  const newUser = await createUserInsecure(result.data.userName, passwordHash);
+  const newUser = await createUserInsecure(
+    result.data.username,
+    passwordHash,
+    result.data.email,
+  );
 
   console.log('User: ', newUser);
 
