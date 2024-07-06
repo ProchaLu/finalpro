@@ -70,3 +70,18 @@ export const createUserInsecure = cache(
 );
 
 // CRUD video From migrations
+
+export const getUserWithPasswordHashInsecure = cache(
+  async (userName: string, email: string) => {
+    const [user] = await sql<UserWithPasswordHash[]>`
+  SELECT
+    *
+  FROM
+    users
+  WHERE
+    user_name = ${userName}       -- no comma but an AND!!!!!!!!!!
+    AND email = ${email}
+  `;
+    return user;
+  },
+);
