@@ -2,10 +2,13 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { getSafeReturnToPath } from '../../../util/validation';
 import ErrorMessage from '../../ErrorMessage';
 import { LoginResponseBodyPost } from '../api/login/route';
 
-export default function LoginForm() {
+type Props = { returnTo?: string | string[] };
+
+export default function LoginForm(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -38,8 +41,13 @@ export default function LoginForm() {
     }
 
     // Redirect from the successful login to the profile
+    // This is not secured
+    // router.push(props.returnTo || `/profile/${data.user.userName}`);
 
-    router.push(`/profile/${data.user.userName}`);
+    // This is secured
+    router.push(
+      getSafeReturnToPath(props.returnTo) || `/profile/${data.user.userName}`,
+    );
   }
   return (
     <form onSubmit={async (event) => await handleLogin(event)}>
