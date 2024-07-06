@@ -1,11 +1,11 @@
 import bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import {
   createUserInsecure,
   getUserInsecure,
   User,
 } from '../../../../database/users';
+import { userSchema } from '../../../../migrations/00000-createTableUsers';
 
 export type RegisterResponseBodyPost =
   | {
@@ -15,11 +15,11 @@ export type RegisterResponseBodyPost =
       errors: { message: string }[];
     };
 
-const userSchema = z.object({
-  username: z.string().min(3),
-  password: z.string().min(3), // for future change the min() and include .regex('') in order to force strong passwords. in the zod doc you can see more.
-  email: z.string().min(3),
-});
+// const userSchema = z.object({
+//   username: z.string().min(3),
+//   password: z.string().min(3), // for future change the min() and include .regex('') in order to force strong passwords. in the zod doc you can see more.
+//   email: z.string().min(3),
+// });
 
 export async function POST(
   request: NextRequest,

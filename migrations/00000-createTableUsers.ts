@@ -1,4 +1,5 @@
 import { Sql } from 'postgres';
+import { z } from 'zod';
 
 export type User = {
   id: number;
@@ -6,6 +7,12 @@ export type User = {
   passwordHash: string;
   email: string;
 };
+
+export const userSchema = z.object({
+  username: z.string().min(3),
+  password: z.string().min(3), // for future change the min() and include .regex('') in order to force strong passwords. in the zod doc you can see more.
+  email: z.string().min(3),
+});
 
 export async function up(sql: Sql) {
   await sql`

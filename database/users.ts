@@ -84,4 +84,30 @@ export const getUserWithPasswordHashInsecure = cache(
   },
 );
 
+// export const updateUserInsecure = cache(async (updatedUser: User) => {
+//   const [user] = await sql<User[]>`
+//   UPDATE users
+//   SET
+//     user_name = ${updatedUser.userName},
+//     email = ${updatedUser.email}
+//   WHERE
+//     id = ${updatedUser.id}
+//   RETURNING
+//     users.*
+//   `;
+//   return user;
+// });
+
+// export const deleteUserInsecure = cache(
+//   async (deleteUser: Pick<User, 'id'>) => {
+//     const [user] = await sql<User[]>`
+//     DELETE FROM users
+//     WHERE
+//       id = ${deleteUser.id}
+//     RETURNING
+//       users.*
+//     `;
+//     return user;
+//   },
+// );
 // CRUD video From migrations
