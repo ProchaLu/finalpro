@@ -7,7 +7,7 @@ import {
   User,
 } from '../../../../database/users';
 
-type RegisterResponseBodyPost =
+export type RegisterResponseBodyPost =
   | {
       user: User;
     }
@@ -17,7 +17,7 @@ type RegisterResponseBodyPost =
 
 const userSchema = z.object({
   username: z.string().min(3),
-  password: z.string().min(3),
+  password: z.string().min(3), // for future change the min() and include .regex('') in order to force strong passwords. in the zod doc you can see more.
   email: z.string().min(3),
 });
 
@@ -51,7 +51,7 @@ export async function POST(
     return NextResponse.json(
       { errors: [{ message: 'Username already taken' }] },
       {
-        status: 400,
+        status: 401,
       },
     );
   }
@@ -60,16 +60,16 @@ export async function POST(
 
   const passwordHash = await bcrypt.hash(result.data.password, 12);
 
-  if (!passwordHash) {
-    return NextResponse.json(
-      { errors: [{ message: 'Login failed' }] },
-      {
-        status: 400,
-      },
-    );
-  }
+  // if (!passwordHash) {
+  //   return NextResponse.json(
+  //     { errors: [{ message: 'Login failed' }] },
+  //     {
+  //       status: 400,
+  //     },
+  //   );
+  // }
 
-  console.log('Information: ', result.data.password, passwordHash);
+  // console.log('Information: ', result.data.password, passwordHash);
 
   // 5. Save the user information with the hashed password in the database
 
@@ -79,9 +79,18 @@ export async function POST(
     result.data.email,
   );
 
+  if (!newUser) {
+    return NextResponse.json(
+      { errors: [{ message: 'Registration failed' }] },
+      {
+        status: 400,
+      },
+    );
+  }
+
   console.log('User: ', newUser);
 
-  return NextResponse.json({ user: 'user' });
+  return NextResponse.json({ user: newUser });
 }
 
 // maybe error comes from not providing email and isOnline
