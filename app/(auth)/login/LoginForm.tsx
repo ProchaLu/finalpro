@@ -43,10 +43,13 @@ export default function LoginForm(props: Props) {
     // Redirect from the successful login to the profile
     // This is not secured
     // router.push(props.returnTo || `/profile/${data.user.userName}`);
+
+    // This is secured
     router.push(
       getSafeReturnToPath(props.returnTo) || `/profile/${data.user.userName}`,
     );
   }
+
   return (
     <form onSubmit={async (event) => await handleLogin(event)}>
       <label>
