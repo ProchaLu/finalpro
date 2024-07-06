@@ -69,8 +69,6 @@ export const createUserInsecure = cache(
   },
 );
 
-// CRUD video From migrations
-
 export const getUserWithPasswordHashInsecure = cache(
   async (userName: string, email: string) => {
     const [user] = await sql<UserWithPasswordHash[]>`
@@ -85,3 +83,5 @@ export const getUserWithPasswordHashInsecure = cache(
     return user;
   },
 );
+
+// CRUD video From migrations

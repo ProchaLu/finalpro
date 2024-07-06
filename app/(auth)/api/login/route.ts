@@ -52,10 +52,31 @@ export async function POST(
     result.data.email,
   );
 
-  console.log('userWithPasswordHash: ', userWithPasswordHash);
-  // 4. Hash the plain password from the user
+  // console.log('userWithPasswordHash: ', userWithPasswordHash);
 
-  // const passwordHash = await bcrypt.hash(result.data.password, 12);
+  if (!userWithPasswordHash) {
+    return NextResponse.json(
+      { errors: [{ message: 'username, email or password invalid' }] },
+      {
+        status: 500,
+      },
+    );
+  }
+  // 4. Validate the user password by comparing with hashed password
+
+  const passwordHash = await bcrypt.compare(
+    result.data.password,
+    userWithPasswordHash.passwordHash,
+  );
+
+  if (!passwordHash) {
+    return NextResponse.json(
+      { errors: [{ message: 'username, email or password invalid' }] },
+      {
+        status: 500,
+      },
+    );
+  }
 
   // // 5. Save the user information with the hashed password in the database
 
