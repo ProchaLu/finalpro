@@ -9,6 +9,7 @@ import {
   User,
 } from '../../../../database/users';
 import { userSchema } from '../../../../migrations/00000-createTableUsers';
+import { secureCookieOptions } from '../../../../util/cookies';
 
 export type RegisterResponseBodyPost =
   | {
@@ -113,14 +114,20 @@ export async function POST(
   }
 
   // 7. Send the new cookie in the headers
+  // cookies().set({
+  //   name: 'sessionToken',
+  //   value: session.token,
+  //   httpOnly: true,
+  //   path: '/',
+  //   secure: process.env.NODE_ENV === 'production',
+  //   maxAge: 60 * 60 * 24,
+  //   sameSite: 'lax',
+  // });
+
   cookies().set({
     name: 'sessionToken',
     value: session.token,
-    httpOnly: true,
-    path: '/',
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 60 * 60 * 24,
-    sameSite: 'lax',
+    ...secureCookieOptions,
   });
 
   return NextResponse.json({ user: newUser });
