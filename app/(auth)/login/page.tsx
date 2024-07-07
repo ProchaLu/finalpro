@@ -18,7 +18,7 @@ export default async function LoginPage(props: Props) {
   const sessionCookie = cookies().get('sessionToken');
   // 2. Check if the sessionToken cookie is still valid
   const session =
-    sessionCookie && (await getValidSession(sessionCookie?.value));
+    sessionCookie && (await getValidSession(sessionCookie.value));
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {
