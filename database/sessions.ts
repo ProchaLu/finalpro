@@ -30,3 +30,17 @@ export const createSessionInsecure = cache(
     return session;
   },
 );
+
+// Delete the session token when logging out
+
+export const deleteSession = cache(async (sessionToken: string) => {
+  const [session] = await sql<Pick<Session, 'id' | 'token'>[]>`
+      DELETE FROM sessions
+      WHERE
+        sessions.token = ${sessionToken}
+      RETURNING
+        sessions.id,
+        sessions.token
+      `;
+  return session;
+});

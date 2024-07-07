@@ -1,3 +1,5 @@
+import LogoutButton from '../../(auth)/logout/LogoutButton';
+
 type Props = {
   params: {
     username: String;
@@ -11,5 +13,10 @@ export default function UserProfile(props: Props) {
   // 3. If user doesn't exist, redirect to login page
   // 4. If user exists, render the page
 
-  return <h1>{props.params.username}' Profile</h1>;
+  return (
+    <div>
+      <h1>{props.params.username}' Profile</h1>
+      <LogoutButton />
+    </div>
+  );
 }
