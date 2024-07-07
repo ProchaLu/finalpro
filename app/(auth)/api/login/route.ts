@@ -1,5 +1,6 @@
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { createSessionInsecure } from '../../../../database/sessions';
 import {
@@ -84,9 +85,25 @@ export async function POST(
 
   const session = await createSessionInsecure(token, userWithPasswordHash.id);
 
-  console.log('session: ', session);
+  if (!session) {
+    return NextResponse.json(
+      { errors: [{ message: 'Sessions creation failed' }] },
+      {
+        status: 401,
+      },
+    );
+  }
 
   // 7. Send the new cookie in the headers
+  cookies().set({
+    name: 'sessionToken',
+    value: session.token,
+    httpOnly: true,
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 60 * 60 * 24,
+    sameSite: 'lax',
+  });
 
   // 8. return the new user information without the password hash
   return NextResponse.json({
