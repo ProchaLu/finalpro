@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { deleteSession } from '../../../database/sessions';
 
 export async function logout() {
@@ -14,4 +15,7 @@ export async function logout() {
 
   // 3. Delete the session cookie from the browser
   cookieStore.delete('sessionToken');
+
+  // 4. Try to redirect to homepage after logout
+  redirect(`/`); // not sure if this is a clean way to do it
 }
