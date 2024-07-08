@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import LogoutButton from '../../(auth)/logout/LogoutButton';
-import { getValidSession } from '../../../database/sessions';
+import { getUser } from '../../../database/users';
 
 type Props = {
   params: {
@@ -10,17 +10,18 @@ type Props = {
 };
 
 export default async function UserProfile(props: Props) {
-  // Task: Add redirect to login page if user is not logged in
+  // Add redirect to login page if user is not logged in
   // 1. Check if the sessionToken cookie exists
   const sessionCookie = cookies().get('sessionToken');
 
   // 2. Query the current user with the sessionToken
-  const session = sessionCookie && (await getValidSession(sessionCookie.value));
+  const user = sessionCookie && getUser(sessionCookie.value);
+  // in lecture video code linie is (await getUser(sessionCookie.value)); But when i type it like this i get an error Unhandled runtime postgres syntax blabla. Also i don't move from the profile page when i hit logout button. only doing this because of redirect(`/`); in logout/action.ts
+
   // 3. If user doesn't exist, redirect to login page
-  if (!session) {
-    redirect(`/login?returnTo=/profile/${props.params.username}`);
+  if (!user) {
+    redirect('/login');
   }
-  // 4. If user exists, render the page
 
   return (
     <div>
