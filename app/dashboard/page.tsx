@@ -22,5 +22,11 @@ export default async function PollsPage() {
     redirect(`/login?returnTo=/dashboard`); // once you set up the polls folder this must look like that: redirect(`/login?returnTo=/polls/dashboard`)
   }
 
+  // const polls = await getPolls(session.token)  --> for this you also need to change the sessions.ts file as mentioned below and explained in the video session:review
+
   // 4. If the sessionToken cookie is valid, allow access to dashboard page
+  // return <PollsForm polls={polls} />;
+
+  // check out video Sessions: Review.... Minute 9. He also changes sessions.ts file getValidSession. you will also need to create the getPolls function in the polls.ts file in /database that is not yet created. all in the video
+
 }
