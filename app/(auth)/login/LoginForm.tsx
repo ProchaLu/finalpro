@@ -75,7 +75,7 @@ export default function LoginForm(props: Props) {
           onChange={(event) => setEmail(event.currentTarget.value)}
         />
       </label>
-      <button>Login</button>
+      <button>Sign In</button>
 
       {errors.map((error) => (
         <div className="error" key={`error-${error.message}`}>

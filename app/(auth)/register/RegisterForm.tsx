@@ -66,7 +66,7 @@ export default function RegisterForm() {
           onChange={(event) => setEmail(event.currentTarget.value)}
         />
       </label>
-      <button>Register</button>
+      <button>Sign Up</button>
 
       {errors.map((error) => (
         <div className="error" key={`error-${error.message}`}>
