@@ -32,7 +32,9 @@ export default function RootLayout({ children }) {
               <Link href="/">Home</Link>
             </div>
             <div className="right-nav">
-              <Link href="/login">Sign In</Link>
+              <div className="signIn">
+                <Link href="/login">Sign In</Link>
+              </div>
               <details className="dropdown">
                 <summary className="dropdown-summary">Menu</summary>
                 <div className="dropdown-content">

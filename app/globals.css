@@ -33,6 +33,12 @@
   color: #000;
 }
 
+.signIn {
+  padding: 5px;
+  outline: 1px solid black;
+  border-radius: 15px;
+}
+
 .dropdown {
   position: relative;
 }

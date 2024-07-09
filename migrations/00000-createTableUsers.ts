@@ -18,10 +18,11 @@ export async function up(sql: Sql) {
   await sql`
     CREATE TABLE users (
       id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      user_name VARCHAR(80) NOT NULL UNIQUE,
-      password_hash VARCHAR(80) NOT NULL,
-      email VARCHAR(255) NOT NULL
-    )`;
+      user_name varchar(80) NOT NULL UNIQUE,
+      password_hash varchar(80) NOT NULL,
+      email varchar(255) NOT NULL
+    )
+  `;
 }
 
 export async function down(sql: Sql) {

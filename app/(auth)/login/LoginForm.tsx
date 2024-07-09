@@ -33,10 +33,13 @@ export default function LoginForm(props: Props) {
     });
     // for console.log
     const data: LoginResponseBodyPost = await response.json();
+    console.log('Login response data:', data);
 
     if ('errors' in data) {
       return setErrors(data.errors);
     }
+
+    console.log('data.user.userName:', data.user.userName);
 
     // Redirect from the successful login to the profile
     // This is not secured
