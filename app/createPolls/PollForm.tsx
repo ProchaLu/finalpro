@@ -25,6 +25,15 @@ export default function PollForm(props: Props) {
     setOptions(newOptions);
   };
 
+  const handleRemoveOption = (index: number) => {
+    if (options.length > 2) {
+      const newOptions = options.filter(
+        (_, optionIndex) => optionIndex !== index,
+      );
+      setOptions(newOptions);
+    }
+  };
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -43,7 +52,7 @@ export default function PollForm(props: Props) {
     const data = await response.json();
     console.log('Poll creation response data: ', data);
 
-    if (response.ok) {
+    if ('errors' in data) {
       return setErrors(data.errors);
     }
 
@@ -88,6 +97,11 @@ export default function PollForm(props: Props) {
                 }
                 required
               />
+              {options.length > 2 && (
+                <button type="button" onClick={() => handleRemoveOption(index)}>
+                  Delete
+                </button>
+              )}
             </div>
           ))}
           <button type="button" onClick={handleAddOption}>
