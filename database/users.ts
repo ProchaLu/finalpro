@@ -15,7 +15,7 @@ type UserWithPasswordHash = User & {
 export const getUser = cache(async (sessionToken: string) => {
   const [user] = await sql<Pick<User, 'userName'>[]>`
   SELECT
-    user.user_name          -- maybe user.username
+    user.user_name
   FROM
     users
     INNER JOIN sessions ON {
@@ -26,6 +26,7 @@ export const getUser = cache(async (sessionToken: string) => {
   return user;
 });
 
+// For Users that just created an account (Insecure)
 export const getUserInsecure = cache(
   async (userName: string, email: string) => {
     const [user] = await sql<User[]>`
@@ -59,6 +60,7 @@ export const getUserInsecure = cache(
 // import { User } from '../migrations/00000-createTableUsers.js';
 // import { sql } from './connect.js';
 
+// Insecure because accessible for everybody, since everyone should have access to the register page
 export const createUserInsecure = cache(
   async (userName: string, passwordHash: string, email: string) => {
     // cache(async (newUser: Omit<User, 'id'>)
