@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createPoll, getPollById } from '../../../../database/polls';
+import { createPoll } from '../../../../database/polls';
 import { getValidSession } from '../../../../database/sessions';
 import {
   Poll,
@@ -20,7 +20,6 @@ export async function POST(
   console.log('test');
   // 1. Get the polls data from the request
   const body = await request.json();
-  console.log(body);
 
   // const { title, description } = body;
 
@@ -36,10 +35,37 @@ export async function POST(
     );
   }
 
-  // 3. Save the polls information in the database
+  // 3. Get the session token from cookies for the userId to connect to polls db
+  const sessionToken = request.cookies.get('sessionToken')?.value;
+
+  if (!sessionToken) {
+    return NextResponse.json(
+      { errors: [{ message: 'Session token is missing' }] },
+      {
+        status: 401,
+      },
+    );
+  }
+
+  // 4. Validate the session and get the user ID
+  const session = await getValidSession(sessionToken);
+
+  if (!session) {
+    return NextResponse.json(
+      { errors: [{ message: 'Session not found or has expired' }] },
+      {
+        status: 401,
+      },
+    );
+  }
+
+  const userId = session.userId;
+
+  // 4. Save the polls information in the database
   const newPoll = await createPoll(
     result.data.title,
     result.data.description,
+    userId,
     // result.data.userId,
   );
 
