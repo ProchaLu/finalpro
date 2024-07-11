@@ -13,28 +13,20 @@ import { sql } from './connect';
 export type PollWithId = Poll & { id: number };
 
 export const createPoll = cache(
-  async (title: string, description: string, userId: number) => {
-    const [poll] = await sql<PollWithId[]>`
+  async (title: string, description: string /*userId: number*/) => {
+    const [poll] = await sql<Poll[]>`
+      -- was PollWithId before
       INSERT INTO
-        polls (
-          title,
-          description,
-          is_private,
-          user_id
-        )
+        polls (title, description)
       VALUES
         (
           ${title},
-          ${description},
-          FALSE,
-          ${userId}
+          ${description}
         )
       RETURNING
         id,
         title,
-        description,
-        is_private,
-        user_id
+        description
     `;
     return poll;
   },

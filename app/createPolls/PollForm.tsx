@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { CreatePollResponseBodyPost } from '../(auth)/api/createPolls/route';
 import { getSafeReturnToPath } from '../../util/validation';
 import ErrorMessage from '../ErrorMessage';
 
@@ -10,46 +11,47 @@ type Props = { returnTo?: string | string[] };
 export default function PollForm(props: Props) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [options, setOptions] = useState(['', '']);
+  // const [options, setOptions] = useState(['', '']);
   const [errors, setErrors] = useState<{ message: string }[]>([]);
 
   const router = useRouter();
 
-  const handleAddOption = () => {
-    setOptions([...options, '']);
-  };
+  // const handleAddOption = () => {
+  //   setOptions([...options, '']);
+  // };
 
-  const handleOptionChange = (index: number, value: string) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
-  };
+  // const handleOptionChange = (index: number, value: string) => {
+  //   const newOptions = [...options];
+  //   newOptions[index] = value;
+  //   setOptions(newOptions);
+  // };
 
-  const handleRemoveOption = (index: number) => {
-    if (options.length > 2) {
-      const newOptions = options.filter(
-        (_, optionIndex) => optionIndex !== index,
-      );
-      setOptions(newOptions);
-    }
-  };
+  // const handleRemoveOption = (index: number) => {
+  //   if (options.length > 2) {
+  //     const newOptions = options.filter(
+  //       (_, optionIndex) => optionIndex !== index,
+  //     );
+  //     setOptions(newOptions);
+  //   }
+  // };
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const response = await fetch('/api/polls', {
+    const response = await fetch('/api/createPolls', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         title,
         description,
-        options,
+        // options,
       }),
+
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
-    const data = await response.json();
+    const data: CreatePollResponseBodyPost = await response.json();
     console.log('Poll creation response data: ', data);
 
     if ('errors' in data) {
@@ -57,7 +59,7 @@ export default function PollForm(props: Props) {
     }
 
     // Redirect after successful poll creation
-    router.push(getSafeReturnToPath(props.returnTo) || '/createPolls');
+    router.push(getSafeReturnToPath(props.returnTo) || '/');
     router.refresh();
   }
 
@@ -85,7 +87,7 @@ export default function PollForm(props: Props) {
             />
           </label>
         </div>
-        <div>
+        {/* <div>
           <label>Options:</label>
           {options.map((option, index) => (
             <div key={index}>
@@ -107,7 +109,7 @@ export default function PollForm(props: Props) {
           <button type="button" onClick={handleAddOption}>
             Add Option
           </button>
-        </div>
+        </div> */}
         <button type="submit">Create Poll</button>
 
         {errors.map((error) => (
