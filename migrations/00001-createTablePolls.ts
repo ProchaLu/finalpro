@@ -12,7 +12,7 @@ export type Poll = {
 export const pollSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(3),
-  userId: z.number(), // not sure about this since i don't as for an input userId client-side
+  // userId: z.number(), // not sure about this since i don't as for an input userId client-side
 });
 
 export async function up(sql: Sql) {

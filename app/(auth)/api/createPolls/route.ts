@@ -17,11 +17,8 @@ export type CreatePollResponseBodyPost =
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<CreatePollResponseBodyPost>> {
-  console.log('test');
   // 1. Get the polls data from the request
   const body = await request.json();
-
-  // const { title, description } = body;
 
   // 2. Validate the polls data with zod
   const result = pollSchema.safeParse(body);

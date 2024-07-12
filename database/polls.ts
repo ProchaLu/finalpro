@@ -17,7 +17,7 @@ export const createPoll = cache(
     const [poll] = await sql<Poll[]>`
       -- was PollWithId before
       INSERT INTO
-        polls (title, description, user_id,)
+        polls (title, description, user_id)
       VALUES
         (
           ${title},

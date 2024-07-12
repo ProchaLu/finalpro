@@ -13,8 +13,9 @@ type UserWithPasswordHash = User & {
 };
 
 export const getUser = cache(async (sessionToken: string) => {
-  const [user] = await sql<Pick<User, 'userName'>[]>`
+  const [user] = await sql<Pick<User, 'id' | 'userName'>[]>`
   SELECT
+    user.user_id
     user.user_name
   FROM
     users
